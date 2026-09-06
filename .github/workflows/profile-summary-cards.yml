@@ -1,25 +1,68 @@
-name: GitHub-Profile-Summary-Cards
+# name: GitHub-Profile-Summary-Cards
+# on:
+#   schedule: # execute every 24 hours
+#     - cron: "* */24 * * *"
+#   workflow_dispatch:
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     name: generate-github-profile-summary-cards
+
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: vn7n24fzkq/github-profile-summary-cards@release
+#         env: # default use ${{ secrets.SUMMARY_GITHUB_TOKEN }}, you should replace with your personal access token
+#           GITHUB_TOKEN: ${{ secrets.SUMMARY_CARDS_TOKEN }}
+#         with:
+#           USERNAME: ${{ github.repository_owner }}
+#           # BRANCH_NAME is optional, default to main, branch name to push cards
+#           BRANCH_NAME: "master"
+#           # UTC_OFFSET is optional, default to zero
+#           UTC_OFFSET: -8 
+#           # EXCLUDE is an optional comma seperated list of languages to exclude, defaults to ""
+#           EXCLUDE: ""
+
+name: GitHub-Advanced-Metrics
 
 on:
-  schedule: # execute every 24 hours
+  schedule:
     - cron: "* */24 * * *"
   workflow_dispatch:
 
 jobs:
-  build:
+  build-metrics:
     runs-on: ubuntu-latest
-    name: generate-github-profile-summary-cards
-
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: vn7n24fzkq/github-profile-summary-cards@release
-        env: # default use ${{ secrets.SUMMARY_GITHUB_TOKEN }}, you should replace with your personal access token
-          GITHUB_TOKEN: ${{ secrets.SUMMARY_CARDS_TOKEN }}
+      - name: Generate Private & Organization Metrics
+        uses: lowlighter/metrics@latest
         with:
-          USERNAME: ${{ github.repository_owner }}
-          # BRANCH_NAME is optional, default to main, branch name to push cards
-          BRANCH_NAME: "master"
-          # UTC_OFFSET is optional, default to zero
-          UTC_OFFSET: -8 
-          # EXCLUDE is an optional comma seperated list of languages to exclude, defaults to ""
-          EXCLUDE: ""
+          filename: github-metrics.svg
+          token: ${{ secrets.SUMMARY_GITHUB_TOKEN }}
+          user: gkcalat
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: America/Los_Angeles
+
+          # Include private repos & org activity
+          config_order: base.header, isles, base.activity, base.community, habits, languages, followup
+          
+          # Lines of code (Deep inspection across public, private & org repos)
+          plugin_languages: yes
+          plugin_languages_indepth: yes # Clones repos to calculate lines added/deleted
+          plugin_languages_analysis_timeout: 30
+          plugin_languages_details: bytes-size, lines, percentage
+          plugin_languages_limit: 8
+
+          # Reviews, issues, and PR comments across all accessible repos
+          plugin_followup: yes
+          plugin_followup_sections: user, repositories
+          plugin_followup_indepth: yes
+
+          # Citizenship & coding habits
+          plugin_habits: yes
+          plugin_habits_from: 200
+          plugin_habits_facts: yes
+          plugin_habits_charts: yes
