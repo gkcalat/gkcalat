@@ -11,25 +11,25 @@
   <rect width="495" height="195" rx="10" fill="#141321" stroke="#fe428e" stroke-width="1"/>
   
   <text x="25" y="30" class="header">GitHub Standing (Active Developer Index)</text>
-  <text x="25" y="46" class="subtitle">AI-era calibrated: human reviews, PR shipping &amp; sublinear commits</text>
+  <text x="25" y="46" class="subtitle">AI-era calibrated: lifetime human reviews, PR shipping &amp; commits</text>
   
   <text x="25" y="78" class="stat-label">Total Commits (All Repos):</text>
-  <text x="235" y="78" class="stat-val">672</text>
+  <text x="235" y="78" class="stat-val">1,750</text>
   
   <text x="25" y="102" class="stat-label">Pull Requests Merged/Open:</text>
-  <text x="235" y="102" class="stat-val">424</text>
+  <text x="235" y="102" class="stat-val">550</text>
   
   <text x="25" y="126" class="stat-label">Code Reviews Given:</text>
-  <text x="235" y="126" class="stat-val">325</text>
+  <text x="235" y="126" class="stat-val">402</text>
   
   <text x="25" y="150" class="stat-label">Issues Triaged &amp; Opened:</text>
-  <text x="235" y="150" class="stat-val">88</text>
+  <text x="235" y="150" class="stat-val">153</text>
 
   <text x="25" y="174" class="stat-label">Percentile:</text>
-  <text x="235" y="174" class="stat-val">98.7%</text>
+  <text x="235" y="174" class="stat-val">99.3%</text>
 
   <!-- Circular Tier Badge -->
   <circle cx="410" cy="98" r="42" stroke="#fe428e" stroke-width="3" fill="#1a1829"/>
-  <text x="410" y="110" text-anchor="middle" class="rank-text">S</text>
-  <text x="410" y="162" text-anchor="middle" class="rank-sub">Top 1.27%</text>
+  <text x="410" y="110" text-anchor="middle" class="rank-text">S+</text>
+  <text x="410" y="162" text-anchor="middle" class="rank-sub">Top 0.72%</text>
 </svg>
