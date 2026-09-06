@@ -1,4 +1,4 @@
-<svg width="495" height="205" viewBox="0 0 495 205" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="495" height="235" viewBox="0 0 495 235" fill="none" xmlns="http://www.w3.org/2000/svg">
   <style>
     .header { font: 600 17px 'Segoe UI', Ubuntu, Sans-Serif; fill: #fe428e; }
     .subtitle { font: 400 11px 'Segoe UI', Ubuntu, Sans-Serif; fill: #7970a9; }
@@ -6,29 +6,50 @@
     .stat-val { font: 700 13px 'Segoe UI', Ubuntu, Sans-Serif; fill: #ffffff; }
     .rank-text { font: 700 32px 'Segoe UI', Ubuntu, Sans-Serif; fill: #f8d847; }
     .rank-sub { font: 600 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: #fe428e; }
+    .split-title { font: 600 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: #ffffff; }
+    .split-meta { font: 400 11px 'Segoe UI', Ubuntu, Sans-Serif; fill: #7970a9; }
+    .legend-public { font: 600 11px 'Segoe UI', Ubuntu, Sans-Serif; fill: #a9fef7; }
+    .legend-private { font: 600 11px 'Segoe UI', Ubuntu, Sans-Serif; fill: #fe428e; }
   </style>
-  <rect width="495" height="205" rx="10" fill="#141321" stroke="#fe428e" stroke-width="1"/>
+
+  <rect width="495" height="235" rx="10" fill="#141321" stroke="#fe428e" stroke-width="1"/>
   
   <text x="25" y="32" class="header">GitHub Standing (Active Developer Index)</text>
   <text x="25" y="48" class="subtitle">AI-era weighted: human review, PR shipping, and org collaboration</text>
   
-  <text x="25" y="80" class="stat-label">Total Commits (Private &amp; Org):</text>
-  <text x="260" y="80" class="stat-val">663</text>
+  <text x="25" y="78" class="stat-label">Total Commits (All Repos):</text>
+  <text x="245" y="78" class="stat-val">666</text>
   
-  <text x="25" y="105" class="stat-label">Pull Requests Merged/Open:</text>
-  <text x="260" y="105" class="stat-val">424</text>
+  <text x="25" y="100" class="stat-label">Pull Requests Merged/Open:</text>
+  <text x="245" y="100" class="stat-val">424</text>
   
-  <text x="25" y="130" class="stat-label">Code Reviews Given:</text>
-  <text x="260" y="130" class="stat-val">325</text>
+  <text x="25" y="122" class="stat-label">Code Reviews Given:</text>
+  <text x="245" y="122" class="stat-val">325</text>
   
-  <text x="25" y="155" class="stat-label">Issues Triaged &amp; Opened:</text>
-  <text x="260" y="155" class="stat-val">88</text>
+  <text x="25" y="144" class="stat-label">Issues Triaged &amp; Opened:</text>
+  <text x="245" y="144" class="stat-val">88</text>
 
-  <text x="25" y="180" class="stat-label">Percentile (vs. Active Developers):</text>
-  <text x="260" y="180" class="stat-val">99.3%</text>
+  <text x="25" y="166" class="stat-label">Global Percentile Standing:</text>
+  <text x="245" y="166" class="stat-val">98.7%</text>
 
   <!-- Circular Tier Badge -->
-  <circle cx="410" cy="100" r="45" stroke="#fe428e" stroke-width="3" fill="#1a1829"/>
-  <text x="410" y="110" text-anchor="middle" class="rank-text">S</text>
-  <text x="410" y="165" text-anchor="middle" class="rank-sub">Top 0.67%</text>
+  <circle cx="410" cy="95" r="42" stroke="#fe428e" stroke-width="3" fill="#1a1829"/>
+  <text x="410" y="105" text-anchor="middle" class="rank-text">S</text>
+  <text x="410" y="155" text-anchor="middle" class="rank-sub">Top 1.27%</text>
+
+  <!-- Split Ratio Header -->
+  <text x="25" y="195" class="split-title">Contribution Distribution</text>
+  <text x="240" y="195" class="legend-public">● Public: 100.0%</text>
+  <text x="355" y="195" class="legend-private">● Private &amp; Org: 0.0%</text>
+
+  <!-- Segmented Progress Bar -->
+  <clipPath id="bar-clip">
+    <rect x="25" y="206" width="445" height="10" rx="5"/>
+  </clipPath>
+  
+  <g clip-path="url(#bar-clip)">
+    <rect x="25" y="206" width="445" height="10" fill="#242238"/>
+    <rect x="25" y="206" width="445" height="10" fill="#a9fef7"/>
+    <rect x="470" y="206" width="0" height="10" fill="#fe428e"/>
+  </g>
 </svg>
