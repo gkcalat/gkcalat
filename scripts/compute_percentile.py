@@ -9,22 +9,29 @@ GRAPHQL_URL = "https://api.github.com/graphql"
 
 # GraphQL query requesting all contributions (including private via viewer context)
 QUERY = """
-query($login: String!) {
-  user(login: $login) {
+query {
+  viewer {
+    login
     contributionsCollection {
       totalCommitContributions
       totalPullRequestContributions
       totalPullRequestReviewContributions
       totalIssueContributions
       restrictedContributionsCount
-    }
-    repositoriesContributedTo(first: 1, contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, REPOSITORY]) {
-      totalCount
+      commitContributionsByRepository(maxRepositories: 100) {
+        repository {
+          nameWithOwner
+          isPrivate
+        }
+        contributions {
+          totalCount
+        }
+      }
     }
     pullRequests(states: [MERGED, OPEN]) {
       totalCount
     }
-    repositories(first: 100, ownerAffiliations: OWNER) {
+    repositories(first: 100, ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) {
       nodes {
         stargazerCount
       }
@@ -38,10 +45,10 @@ def fetch_data():
         "Authorization": f"bearer {GITHUB_TOKEN}",
         "Content-Type": "application/json",
     }
-    response = requests.post(GRAPHQL_URL, json={"query": QUERY, "variables": {"login": USERNAME}}, headers=headers)
+    response = requests.post(GRAPHQL_URL, json={"query": QUERY}, headers=headers)
     if response.status_code != 200:
         raise Exception(f"Query failed: {response.status_code}, {response.text}")
-    return response.json()["data"]["user"]
+    return response.json()["data"]["viewer"]
 
 def compute_percentile(data):
     cc = data["contributionsCollection"]
