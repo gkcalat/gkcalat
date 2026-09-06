@@ -12,7 +12,7 @@
 #     steps:
 #       - uses: actions/checkout@v3
 #       - uses: vn7n24fzkq/github-profile-summary-cards@release
-#         env: # default use ${{ secrets.SUMMARY_GITHUB_TOKEN }}, you should replace with your personal access token
+#         env: # default use ${{ secrets.SUMMARY_CARDS_TOKEN }}, you should replace with your personal access token
 #           GITHUB_TOKEN: ${{ secrets.SUMMARY_CARDS_TOKEN }}
 #         with:
 #           USERNAME: ${{ github.repository_owner }}
@@ -40,7 +40,7 @@ jobs:
         uses: lowlighter/metrics@latest
         with:
           filename: github-metrics.svg
-          token: ${{ secrets.SUMMARY_GITHUB_TOKEN }}
+          token: ${{ secrets.SUMMARY_CARDS_TOKEN }}
           user: gkcalat
           template: classic
           base: header, activity, community, repositories, metadata
