@@ -5,21 +5,15 @@ import requests
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GRAPHQL_URL = "https://api.github.com/graphql"
 
-QUERY = """
+# 1. Query general stats and the list of active contribution years
+QUERY_OVERVIEW = """
 query {
   viewer {
     login
     contributionsCollection {
-      totalCommitContributions
-      totalPullRequestContributions
-      totalPullRequestReviewContributions
-      totalIssueContributions
-      restrictedContributionsCount
+      contributionYears
     }
     repositoriesContributedTo(first: 100, contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, REPOSITORY]) {
-      totalCount
-    }
-    pullRequests(states: [MERGED, OPEN]) {
       totalCount
     }
     repositories(first: 100, ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) {
@@ -31,54 +25,94 @@ query {
 }
 """
 
-def fetch_data():
-    if not GITHUB_TOKEN:
-        raise ValueError("GITHUB_TOKEN environment variable is not set.")
+# 2. Query contribution stats for a specific 1-year window
+QUERY_YEAR = """
+query($from: DateTime!, $to: DateTime!) {
+  viewer {
+    contributionsCollection(from: $from, to: $to) {
+      totalCommitContributions
+      totalPullRequestContributions
+      totalPullRequestReviewContributions
+      totalIssueContributions
+      restrictedContributionsCount
+    }
+  }
+}
+"""
 
+def run_query(query, variables=None):
     headers = {
         "Authorization": f"bearer {GITHUB_TOKEN}",
         "Content-Type": "application/json",
     }
-    response = requests.post(GRAPHQL_URL, json={"query": QUERY}, headers=headers)
+    response = requests.post(GRAPHQL_URL, json={"query": query, "variables": variables or {}}, headers=headers)
     if response.status_code != 200:
         raise RuntimeError(f"GraphQL request failed [{response.status_code}]: {response.text}")
-
     payload = response.json()
     if "errors" in payload:
         raise RuntimeError(f"GraphQL errors returned: {payload['errors']}")
-
     return payload["data"]["viewer"]
+
+def fetch_all_lifetime_data():
+    if not GITHUB_TOKEN:
+        raise ValueError("GITHUB_TOKEN environment variable is not set.")
+
+    overview = run_query(QUERY_OVERVIEW)
+    years = overview["contributionsCollection"]["contributionYears"]
+
+    total_commits = 0
+    total_prs = 0
+    total_reviews = 0
+    total_issues = 0
+
+    # Aggregate across all years to match lowlighter/metrics all-time counts
+    for year in years:
+        from_date = f"{year}-01-01T00:00:00Z"
+        to_date = f"{year}-12-31T23:59:59Z"
+        year_data = run_query(QUERY_YEAR, {"from": from_date, "to": to_date})
+        cc = year_data["contributionsCollection"]
+
+        public_commits = cc["totalCommitContributions"]
+        private_commits = cc.get("restrictedContributionsCount", 0)
+        total_commits += (public_commits + private_commits)
+
+        total_prs += cc["totalPullRequestContributions"]
+        total_reviews += cc["totalPullRequestReviewContributions"]
+        total_issues += cc["totalIssueContributions"]
+
+    repos_contributed = overview["repositoriesContributedTo"]["totalCount"]
+    stars = sum(repo["stargazerCount"] for repo in overview["repositories"]["nodes"])
+
+    return {
+        "commits": total_commits,
+        "prs": total_prs,
+        "reviews": total_reviews,
+        "issues": total_issues,
+        "repos_contributed": repos_contributed,
+        "stars": stars
+    }
 
 def standard_normal_cdf(x):
     return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
 
 def compute_metrics(data):
-    cc = data["contributionsCollection"]
+    commits = data["commits"]
+    prs = data["prs"]
+    reviews = data["reviews"]
+    issues = data["issues"]
 
-    public_commits = cc["totalCommitContributions"]
-    private_commits = cc.get("restrictedContributionsCount", 0)
-    all_commits = public_commits + private_commits
-
-    prs = cc["totalPullRequestContributions"]
-    reviews = cc["totalPullRequestReviewContributions"]
-    issues = cc["totalIssueContributions"]
-
-    repos_contributed = data["repositoriesContributedTo"]["totalCount"]
-    stars = sum(repo["stargazerCount"] for repo in data["repositories"]["nodes"])
-
-    # AI-era recalibrated scoring
-    commit_score = 15.0 * math.sqrt(max(0, all_commits))
+    # AI-era scoring model
+    commit_score = 15.0 * math.sqrt(max(0, commits))
     pr_score = prs * 4.0
     review_score = reviews * 7.0
     issue_score = issues * 2.0
-    star_score = min(500.0, stars * 1.0)
+    star_score = min(500.0, data["stars"] * 1.0)
 
     base_score = commit_score + pr_score + review_score + issue_score + star_score
-
-    breadth_factor = 1.0 + min(0.30, math.log10(max(1, repos_contributed)) * 0.12)
+    breadth_factor = 1.0 + min(0.30, math.log10(max(1, data["repos_contributed"])) * 0.12)
     composite_score = base_score * breadth_factor
 
-    # Log-normal CDF calibrated against ~8M active engineers
+    # Active engineer benchmark calibration (~8M developers)
     mu = 6.1
     sigma = 1.15
 
@@ -100,7 +134,7 @@ def compute_metrics(data):
         tier = "C"
 
     return {
-        "commits": all_commits,
+        "commits": commits,
         "prs": prs,
         "reviews": reviews,
         "issues": issues,
@@ -124,7 +158,7 @@ def generate_svg(m):
   <rect width="495" height="195" rx="10" fill="#141321" stroke="#fe428e" stroke-width="1"/>
   
   <text x="25" y="30" class="header">GitHub Standing (Active Developer Index)</text>
-  <text x="25" y="46" class="subtitle">AI-era calibrated: human reviews, PR shipping &amp; sublinear commits</text>
+  <text x="25" y="46" class="subtitle">AI-era calibrated: lifetime human reviews, PR shipping &amp; commits</text>
   
   <text x="25" y="78" class="stat-label">Total Commits (All Repos):</text>
   <text x="235" y="78" class="stat-val">{m['commits']:,}</text>
@@ -151,7 +185,8 @@ def generate_svg(m):
         f.write(svg)
 
 if __name__ == "__main__":
-    data = fetch_data()
+    data = fetch_all_lifetime_data()
     metrics = compute_metrics(data)
     generate_svg(metrics)
-    print(f"Generated percentile card: Top {metrics['top_percentage']}% | Tier {metrics['tier']} | Percentile {metrics['percentile']}%")
+    print(f"Computed Lifetime Commits: {metrics['commits']}")
+    print(f"Generated card: Top {metrics['top_percentage']}% | Tier {metrics['tier']}")
