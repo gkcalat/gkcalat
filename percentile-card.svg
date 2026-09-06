@@ -11,22 +11,22 @@
   <text x="25" y="35" class="header">GitHub Contribution Ranking (All Repos)</text>
   
   <text x="25" y="70" class="stat-label">Total Commits (incl. Private):</text>
-  <text x="260" y="70" class="stat-val">74</text>
+  <text x="260" y="70" class="stat-val">659</text>
   
   <text x="25" y="95" class="stat-label">Pull Requests Submitted:</text>
-  <text x="260" y="95" class="stat-val">31</text>
+  <text x="260" y="95" class="stat-val">424</text>
   
   <text x="25" y="120" class="stat-label">Code Reviews Given:</text>
-  <text x="260" y="120" class="stat-val">4</text>
+  <text x="260" y="120" class="stat-val">325</text>
   
   <text x="25" y="145" class="stat-label">Issues Opened:</text>
-  <text x="260" y="145" class="stat-val">1</text>
+  <text x="260" y="145" class="stat-val">88</text>
 
   <text x="25" y="170" class="stat-label">Global Percentile Standing:</text>
-  <text x="260" y="170" class="stat-val">19.68%</text>
+  <text x="260" y="170" class="stat-val">96.62%</text>
 
   <!-- Circular Tier Badge -->
   <circle cx="410" cy="95" r="45" stroke="#fe428e" stroke-width="4" fill="#1a1829"/>
-  <text x="410" y="105" text-anchor="middle" class="rank-text">C</text>
-  <text x="410" y="160" text-anchor="middle" class="rank-sub">Top 80.32%</text>
+  <text x="410" y="105" text-anchor="middle" class="rank-text">S</text>
+  <text x="410" y="160" text-anchor="middle" class="rank-sub">Top 3.38%</text>
 </svg>
