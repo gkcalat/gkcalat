@@ -60,8 +60,11 @@ jobs:
           plugin_followup_sections: user, repositories
           plugin_followup_indepth: yes
 
-          # Coding habits
+          # Coding habits# Coding habits & active review hours
           plugin_habits: yes
-          plugin_habits_from: 200
+          plugin_habits_from: 100          # Reduce from 200 to avoid stale/squashed event references
+          plugin_habits_days: 14           # Bound to the last 14 days rather than unbounded event count
           plugin_habits_facts: yes
           plugin_habits_charts: yes
+          plugin_habits_charts_type: classic
+          plugin_habits_trim: yes          # Trims empty hours to avoid zero-division and chart render bugs
