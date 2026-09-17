@@ -17,10 +17,10 @@
   <text x="235" y="78" class="stat-val">1,771</text>
   
   <text x="25" y="102" class="stat-label">Pull Requests Merged/Open:</text>
-  <text x="235" y="102" class="stat-val">570</text>
+  <text x="235" y="102" class="stat-val">572</text>
   
   <text x="25" y="126" class="stat-label">Code Reviews Given:</text>
-  <text x="235" y="126" class="stat-val">478</text>
+  <text x="235" y="126" class="stat-val">481</text>
   
   <text x="25" y="150" class="stat-label">Issues Triaged &amp; Opened:</text>
   <text x="235" y="150" class="stat-val">153</text>
