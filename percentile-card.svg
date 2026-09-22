@@ -20,16 +20,16 @@
   <text x="235" y="102" class="stat-val">572</text>
   
   <text x="25" y="126" class="stat-label">Code Reviews Given:</text>
-  <text x="235" y="126" class="stat-val">492</text>
+  <text x="235" y="126" class="stat-val">503</text>
   
   <text x="25" y="150" class="stat-label">Issues Triaged &amp; Opened:</text>
   <text x="235" y="150" class="stat-val">153</text>
 
   <text x="25" y="174" class="stat-label">Percentile:</text>
-  <text x="235" y="174" class="stat-val">99.4%</text>
+  <text x="235" y="174" class="stat-val">99.5%</text>
 
   <!-- Circular Tier Badge -->
   <circle cx="410" cy="98" r="42" stroke="#fe428e" stroke-width="3" fill="#1a1829"/>
   <text x="410" y="110" text-anchor="middle" class="rank-text">S+</text>
-  <text x="410" y="162" text-anchor="middle" class="rank-sub">Top 0.55%</text>
+  <text x="410" y="162" text-anchor="middle" class="rank-sub">Top 0.54%</text>
 </svg>
