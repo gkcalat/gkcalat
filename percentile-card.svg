@@ -17,16 +17,16 @@
   <text x="235" y="78" class="stat-val">1,820</text>
   
   <text x="25" y="102" class="stat-label">Pull Requests Merged/Open:</text>
-  <text x="235" y="102" class="stat-val">680</text>
+  <text x="235" y="102" class="stat-val">686</text>
   
   <text x="25" y="126" class="stat-label">Code Reviews Given:</text>
-  <text x="235" y="126" class="stat-val">621</text>
+  <text x="235" y="126" class="stat-val">629</text>
   
   <text x="25" y="150" class="stat-label">Issues Triaged &amp; Opened:</text>
   <text x="235" y="150" class="stat-val">153</text>
 
   <text x="25" y="174" class="stat-label">Percentile:</text>
-  <text x="235" y="174" class="stat-val">99.6%</text>
+  <text x="235" y="174" class="stat-val">99.7%</text>
 
   <!-- Circular Tier Badge -->
   <circle cx="410" cy="98" r="42" stroke="#fe428e" stroke-width="3" fill="#1a1829"/>
