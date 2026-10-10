@@ -14,10 +14,10 @@
   <text x="25" y="46" class="subtitle">AI-era calibrated: lifetime human reviews, PR shipping &amp; commits</text>
   
   <text x="25" y="78" class="stat-label">Total Commits (All Repos):</text>
-  <text x="235" y="78" class="stat-val">1,833</text>
+  <text x="235" y="78" class="stat-val">1,838</text>
   
   <text x="25" y="102" class="stat-label">Pull Requests Merged/Open:</text>
-  <text x="235" y="102" class="stat-val">693</text>
+  <text x="235" y="102" class="stat-val">695</text>
   
   <text x="25" y="126" class="stat-label">Code Reviews Given:</text>
   <text x="235" y="126" class="stat-val">654</text>
